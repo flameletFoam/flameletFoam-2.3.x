@@ -34,11 +34,11 @@ This version works with OpenFOAM-2.3
 
 * Execute `./Allwmake`
 
-## Tutorials
+## Tutorial
 
 There is a RANS and a LES tutorial available:
 
-  `cd ./tutorials/pilotedDiffusionFlame/ras/`
+  `cd ./tutorial/pilotedDiffusionFlame/ras/`
 
   `./Allrun`
 
