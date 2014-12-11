@@ -1,0 +1,126 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+convertToMeters 1;
+
+vertices
+(
+    (0.0       0            0.0)
+    (0.15      0            0.0)
+    (0.15      0.005       -0.0005)
+    (0.15      0.01        -0.001)
+    (0.15      0.05        -0.005)
+    (0.0       0.05        -0.005)
+    (0.0       0.01        -0.001)
+    (0.0       0.005       -0.0005)
+    (0.15      0.005        0.0005)
+    (0.15      0.01         0.001)
+    (0.15      0.05         0.005)
+    (0.0       0.05         0.005)
+    (0.0       0.01         0.001)
+    (0.0       0.005        0.0005)
+);
+
+blocks
+(
+    hex (0 1 2 7 0 1 8 13) (50 5 1) simpleGrading (3 1 1)
+    hex (7 2 3 6 13 8 9 12) (50 5 1) simpleGrading (3 1 1)
+    hex (6 3 4 5 12 9 10 11) (50 15 1) simpleGrading (3 5 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    AXIS
+    {
+	type empty;
+	faces
+	(
+	    (0 1 1 0)
+	);
+    }
+    OUTLET
+    {
+        type patch;
+        faces
+        (
+            (1 2 8 1)
+            (2 3 9 8)
+            (3 4 10 9)
+        );
+    }
+    COFLOW
+    {
+        type patch;
+        faces
+        (
+            (12 6 5 11)
+        );
+    }
+    PILOT
+    {
+        type patch;
+        faces
+        (
+            (13 7 6 12)
+        );
+    }
+    FUEL
+    {
+        type patch;
+        faces
+        (
+            (0 7 13 0)
+        );
+    }
+    WALL
+    {
+	type wall;
+	faces
+	(
+            (4 5 11 10)
+	);
+    }
+    front
+    {
+        type wedge;
+        faces
+        (
+            (0 1 2 7)
+            (7 2 3 6)
+            (6 3 4 5)
+	);
+    }        
+    back
+    {
+ 	type wedge;
+	faces  
+	(
+	    (0 13 8 1)
+            (13 12 9 8)
+	    (12 11 10 9)
+        );
+    }
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //

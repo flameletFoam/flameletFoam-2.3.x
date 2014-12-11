@@ -1,0 +1,19 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # run from this directory
+makeType=${1:-libso}
+set -x
+
+wclean ./thermophysicalModels/specie
+wclean ./thermophysicalModels/basic
+wclean ./thermophysicalModels/reactionThermo
+wclean ./thermophysicalModels/chemistryModel
+
+wclean ./turbulenceModels/compressible/turbulenceModel
+wclean ./turbulenceModels/compressible/RAS
+wclean ./turbulenceModels/compressible/LES
+
+wclean ./fvOptions
+
+wclean ./combustionModels
+
+# ----------------------------------------------------------------- end-of-file

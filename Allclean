@@ -1,0 +1,12 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # run from this directory
+makeType=${1:-libso}
+set -x
+
+./src/Allclean
+
+wclean ./applications/utilities/preProcessing/canteraToFoam
+wclean ./applications/utilities/postProcessing/flameletFoamPost
+wclean ./applications/solver/flameletFoam
+
+# ----------------------------------------------------------------- end-of-file

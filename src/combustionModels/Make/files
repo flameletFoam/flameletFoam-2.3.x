@@ -1,0 +1,14 @@
+combustionModel/combustionModel.C
+
+rhoCombustionModel/rhoCombustionModel/rhoCombustionModel.C
+rhoCombustionModel/rhoCombustionModel/rhoCombustionModelNew.C
+rhoCombustionModel/rhoThermoCombustion/rhoThermoCombustion.C
+rhoCombustionModel/rhoChemistryCombustion/rhoChemistryCombustion.C
+
+flameletTable/linearInterpolation/linearInterpolation.C
+flameletTable/flameletTable/flameletTable.C
+flameletTable/tableSolver/tableSolver.C
+
+YSLFModel/YSLFModels.C
+
+LIB = $(FOAM_USER_LIBBIN)/libFlameletCombustionModels

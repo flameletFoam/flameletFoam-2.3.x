@@ -1,0 +1,6 @@
+Gamma.cpp
+canteraScanner.C
+canteraReader.C
+canteraToFoam.C
+
+EXE = $(FOAM_USER_APPBIN)/canteraToFoam

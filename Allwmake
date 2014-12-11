@@ -1,0 +1,12 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # run from this directory
+makeType=${1:-libso}
+set -x
+
+./src/Allwmake
+
+wmake ./applications/utilities/preProcessing/canteraToFoam
+wmake ./applications/utilities/postProcessing/flameletFoamPost
+wmake ./applications/solver/flameletFoam
+
+# ----------------------------------------------------------------- end-of-file
