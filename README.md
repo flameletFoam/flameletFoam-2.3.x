@@ -14,7 +14,7 @@ Values of interest, such as species mass fraction or enthalpy, are looked-up and
 In doing so, the expensive solution of chemical mechanisms during run-time can be avoided and the run-time thus reduces significantly.
 
 More information is available on the Extend-bazaar page:
-https://openfoamwiki.net/index.php/Extend-bazaar/Toolkits/flameletFoam
+https://openfoamwiki.net/index.php/Extend-bazaar/solvers/combustion/flameletFoam
 
 ## Installation
 
@@ -45,6 +45,6 @@ There is a RANS and a LES tutorial available:
 ## Notes
 
 More information on using flameletFoam, in particular a description of the workflow including the table-generation with cantera, is available on:
-https://openfoamwiki.net/index.php/Extend-bazaar/Toolkits/flameletFoam
+https://openfoamwiki.net/index.php/Extend-bazaar/solvers/combustion/flameletFoam
 
 Please feel free to contact me should you find bugs or have suggestions how to make the code better.
