@@ -54,4 +54,5 @@ http://sourceforge.net/projects/openfoam-extend/files/OpenFOAM_Workshops/OFW8_20
 Financial support was provided by the German Research Foundation (Deutsche Forschungsgemeinschaft) in
 the framework of the Sonderforschungsbereich/Transregio 40.
 
-Please feel free to contact me should you find bugs or have suggestions how to make the code better.
+Should you find bugs or have suggestions how to make the code better, please post on cfd-online using the following thread:
+http://www.cfd-online.com/Forums/openfoam-programming-development/145761-flameletfoam.html
