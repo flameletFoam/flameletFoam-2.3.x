@@ -47,4 +47,11 @@ There is a RANS and a LES tutorial available:
 More information on using flameletFoam, in particular a description of the workflow including the table-generation with cantera, is available on:
 https://openfoamwiki.net/index.php/Extend-bazaar/solvers/combustion/flameletFoam
 
+This package was developed at the Universität der Bundeswehr München, Thermodynamics Institute (Prof. Pfitzner). 
+Should you publish results that were obtained with this package, please make sure cite our group, e.g.:
+http://sourceforge.net/projects/openfoam-extend/files/OpenFOAM_Workshops/OFW8_2013_Jeju/Fri/Track3/HagenMuller-OFW8.tar/download
+
+Financial support was provided by the German Research Foundation (Deutsche Forschungsgemeinschaft) in
+the framework of the Sonderforschungsbereich/Transregio 40.
+
 Please feel free to contact me should you find bugs or have suggestions how to make the code better.
