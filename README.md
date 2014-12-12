@@ -48,7 +48,7 @@ More information on using flameletFoam, in particular a description of the workf
 https://openfoamwiki.net/index.php/Extend-bazaar/solvers/combustion/flameletFoam
 
 This package was developed at the Universität der Bundeswehr München, Thermodynamics Institute (Prof. Pfitzner). 
-Should you publish results that were obtained with this package, please make sure cite our group, e.g.:
+Should you publish results that were obtained with this package, please make sure to cite our group, e.g. the following paper:
 http://sourceforge.net/projects/openfoam-extend/files/OpenFOAM_Workshops/OFW8_2013_Jeju/Fri/Track3/HagenMuller-OFW8.tar/download
 
 Financial support was provided by the German Research Foundation (Deutsche Forschungsgemeinschaft) in
