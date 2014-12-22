@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2012-2014 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2014 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -23,31 +23,45 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "rotorDiskSource.H"
+#include "solidificationMeltingSource.H"
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+// * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
-Foam::scalar Foam::fv::rotorDiskSource::rhoRef() const
+void Foam::fv::solidificationMeltingSource::writeData(Ostream& os) const
 {
-    return rhoRef_;
+    os  << indent << name_ << endl;
+    dict_.write(os);
 }
 
 
-Foam::scalar Foam::fv::rotorDiskSource::omega() const
+bool Foam::fv::solidificationMeltingSource::read(const dictionary& dict)
 {
-    return omega_;
-}
+    if (option::read(dict))
+    {
+        coeffs_.lookup("Tmelt") >> Tmelt_;
+        coeffs_.lookup("L") >> L_;
 
+        coeffs_.readIfPresent("relax", relax_);
 
-const Foam::List<Foam::point>& Foam::fv::rotorDiskSource::x() const
-{
-    return x_;
-}
+        mode_ = thermoModeTypeNames_.read(coeffs_.lookup("thermoMode"));
 
+        coeffs_.lookup("rhoRef") >> rhoRef_;
+        coeffs_.readIfPresent("TName", TName_);
+        coeffs_.readIfPresent("UName", UName_);
 
-const Foam::cylindricalCS& Foam::fv::rotorDiskSource::coordSys() const
-{
-    return coordSys_;
+        coeffs_.readIfPresent("Cu", Cu_);
+        coeffs_.readIfPresent("q", q_);
+
+        coeffs_.readIfPresent("beta", beta_);
+
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
+    return false;
 }
 
 

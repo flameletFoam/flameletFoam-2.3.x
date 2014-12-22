@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2012-2014 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2014 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -23,31 +23,47 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "rotorDiskSource.H"
+#include "fvMatrices.H"
+#include "fvcDdt.H"
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+// * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
-Foam::scalar Foam::fv::rotorDiskSource::rhoRef() const
+template<class RhoFieldType>
+void Foam::fv::solidificationMeltingSource::apply
+(
+    const RhoFieldType& rho,
+    fvMatrix<scalar>& eqn
+)
 {
-    return rhoRef_;
-}
+    if (!solveField(eqn.psi().name()))
+    {
+        return;
+    }
 
+    if (debug)
+    {
+        Info<< type() << ": applying source to " << eqn.psi().name() << endl;
+    }
 
-Foam::scalar Foam::fv::rotorDiskSource::omega() const
-{
-    return omega_;
-}
+    const volScalarField Cp(this->Cp());
 
+    update(Cp);
 
-const Foam::List<Foam::point>& Foam::fv::rotorDiskSource::x() const
-{
-    return x_;
-}
+    dimensionedScalar L("L", dimEnergy/dimMass, L_);
 
-
-const Foam::cylindricalCS& Foam::fv::rotorDiskSource::coordSys() const
-{
-    return coordSys_;
+    // contributions added to rhs of solver equation
+    if (eqn.psi().dimensions() == dimTemperature)
+    {
+        // isothermal phase change - only include time derivative
+//        eqn -= L/Cp*(fvc::ddt(rho, alpha1_) + fvc::div(phi, alpha1_));
+        eqn -= L/Cp*(fvc::ddt(rho, alpha1_));
+    }
+    else
+    {
+        // isothermal phase change - only include time derivative
+//        eqn -= L*(fvc::ddt(rho, alpha1_) + fvc::div(phi, alpha1_));
+        eqn -= L*(fvc::ddt(rho, alpha1_));
+    }
 }
 
 

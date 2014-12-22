@@ -2,7 +2,7 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2013 OpenFOAM Foundation
+    \\  /    A nd           | Copyright (C) 2011-2014 OpenFOAM Foundation
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
@@ -24,7 +24,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "interRegionHeatTransferModel.H"
-#include "fluidThermo.H"
+#include "basicThermo.H"
 #include "fvmSup.H"
 #include "zeroGradientFvPatchFields.H"
 #include "fvcVolumeIntegrate.H"
@@ -170,7 +170,7 @@ void Foam::fv::interRegionHeatTransferModel::addSup
 
     correct();
 
-    const volScalarField& h = eqn.psi();
+    const volScalarField& he = eqn.psi();
 
     const volScalarField& T = mesh_.lookupObject<volScalarField>(TName_);
 
@@ -214,19 +214,21 @@ void Foam::fv::interRegionHeatTransferModel::addSup
 
     if (semiImplicit_)
     {
-        if (h.dimensions() == dimEnergy/dimMass)
+        if (he.dimensions() == dimEnergy/dimMass)
         {
-            if (mesh_.foundObject<fluidThermo>("thermophysicalProperties"))
+            if (mesh_.foundObject<basicThermo>("thermophysicalProperties"))
             {
                 const basicThermo& thermo =
                    mesh_.lookupObject<basicThermo>("thermophysicalProperties");
 
-                eqn += htc_*Tmapped - fvm::SuSp(htc_/thermo.Cp(), h);
+                volScalarField htcByCpv(htc_/thermo.Cpv());
+
+                eqn += htc_*(Tmapped - T) + htcByCpv*he - fvm::Sp(htcByCpv, he);
 
                 if (debug)
                 {
                     const dimensionedScalar energy =
-                        fvc::domainIntegrate(htc_*(h/thermo.Cp() - Tmapped));
+                        fvc::domainIntegrate(htc_*(he/thermo.Cp() - Tmapped));
 
                     Info<< "Energy exchange from region " << nbrMesh.name()
                         << " To " << mesh_.name() << " : " <<  energy.value()
@@ -235,7 +237,7 @@ void Foam::fv::interRegionHeatTransferModel::addSup
             }
             else
             {
-                 FatalErrorIn
+                FatalErrorIn
                 (
                     "void Foam::fv::interRegionHeatTransferModel::addSup"
                     "("
@@ -243,17 +245,15 @@ void Foam::fv::interRegionHeatTransferModel::addSup
                     "   const label "
                     ")"
                 )   << " on mesh " << mesh_.name()
-                    << " could not find object fluidThermo."
-                    << " The available objects : "
+                    << " could not find object basicThermo."
+                    << " The available objects are: "
                     << mesh_.names()
-                    << " The semi implicit option can only be used for "
-                    << "fluid-fluid inter region heat transfer models "
                     << exit(FatalError);
             }
         }
-        else if (h.dimensions() == dimTemperature)
+        else if (he.dimensions() == dimTemperature)
         {
-            eqn += htc_*Tmapped - fvm::SuSp(htc_, h);
+            eqn += htc_*Tmapped - fvm::Sp(htc_, he);
         }
     }
     else
@@ -263,12 +263,23 @@ void Foam::fv::interRegionHeatTransferModel::addSup
 }
 
 
+void Foam::fv::interRegionHeatTransferModel::addSup
+(
+    const volScalarField& rho,
+    fvMatrix<scalar>& eqn,
+    const label fieldI
+)
+{
+    addSup(eqn, fieldI);
+}
+
+
 void Foam::fv::interRegionHeatTransferModel::writeData(Ostream& os) const
 {
     os.writeKeyword("name") << this->name() << token::END_STATEMENT << nl;
     os.writeKeyword("nbrRegionName") << nbrRegionName_
         << token::END_STATEMENT << nl;
-    os.writeKeyword("nbrModeleName") << nbrModelName_
+    os.writeKeyword("nbrModelName") << nbrModelName_
         << token::END_STATEMENT << nl;
     os.writeKeyword("master") << master_ << token::END_STATEMENT << nl;
     os.writeKeyword("semiImplicit") << semiImplicit_ << token::END_STATEMENT
