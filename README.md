@@ -18,7 +18,7 @@ https://openfoamwiki.net/index.php/Extend-bazaar/solvers/combustion/flameletFoam
 
 ## Installation
 
-This version works with OpenFOAM-2.3
+This version works with OpenFOAM-2.3.x
 
 * Prepare a directory on your system, e.g.:  
 
