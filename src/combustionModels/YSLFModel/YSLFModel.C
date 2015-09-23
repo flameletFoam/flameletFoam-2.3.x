@@ -37,8 +37,8 @@ namespace combustionModels
 {
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-template<class CombThermoType, class ThermoType>
-YSLFModel<CombThermoType, ThermoType>::YSLFModel
+template<class CombThermoType>
+YSLFModel<CombThermoType>::YSLFModel
 (
     const word& modelType, const fvMesh& mesh
 )
@@ -71,14 +71,14 @@ YSLFModel<CombThermoType, ThermoType>::YSLFModel
 
 // * * * * * * * * * * * * * * * * Destructors * * * * * * * * * * * * * * * //
 
-template<class CombThermoType, class ThermoType>
-YSLFModel<CombThermoType, ThermoType>::~YSLFModel()
+template<class CombThermoType>
+YSLFModel<CombThermoType>::~YSLFModel()
 {}
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
-template<class CombThermoType, class ThermoType>
-hashedWordList YSLFModel<CombThermoType, ThermoType>::tables()
+template<class CombThermoType>
+hashedWordList YSLFModel<CombThermoType>::tables()
 {
 	hashedWordList tableNames = this->thermo().composition().species();
 	tableNames.append("he");
@@ -86,8 +86,8 @@ hashedWordList YSLFModel<CombThermoType, ThermoType>::tables()
 	return tableNames;
 }
 
-template<class CombThermoType, class ThermoType>
-void YSLFModel<CombThermoType, ThermoType>::correct()
+template<class CombThermoType>
+void YSLFModel<CombThermoType>::correct()
 {
     // limit the scalar dissipation rate to avoid instabilities at extinction
     scalar chiLimiter = solver_.maxChi();
@@ -167,15 +167,15 @@ void YSLFModel<CombThermoType, ThermoType>::correct()
     }
 }
 
-template<class CombThermoType, class ThermoType>
-Switch YSLFModel<CombThermoType, ThermoType>::correctDensity()
+template<class CombThermoType>
+Switch YSLFModel<CombThermoType>::correctDensity()
 {
 	return true;
 }
 
-template<class CombThermoType, class ThermoType>
+template<class CombThermoType>
 Foam::tmp<Foam::fvScalarMatrix>
-YSLFModel<CombThermoType, ThermoType>::R
+YSLFModel<CombThermoType>::R
 (
     volScalarField& Y              
 ) const
@@ -184,9 +184,9 @@ YSLFModel<CombThermoType, ThermoType>::R
     return tSu;
 }
 
-template<class CombThermoType, class ThermoType>
+template<class CombThermoType>
 Foam::tmp<Foam::volScalarField>
-YSLFModel< CombThermoType, ThermoType>::Sh() const
+YSLFModel< CombThermoType>::Sh() const
 {
     tmp<volScalarField> tSh
     (
@@ -210,9 +210,9 @@ YSLFModel< CombThermoType, ThermoType>::Sh() const
     return tSh;
 }
 
-template<class CombThermoType, class ThermoType>
+template<class CombThermoType>
 Foam::tmp<Foam::volScalarField>
-YSLFModel< CombThermoType, ThermoType>::dQ() const
+YSLFModel< CombThermoType>::dQ() const
 {
     tmp<volScalarField> tdQ
     (
@@ -236,8 +236,8 @@ YSLFModel< CombThermoType, ThermoType>::dQ() const
     return tdQ;
 }
 
-template<class CombThermoType, class ThermoType>
-bool YSLFModel<CombThermoType, ThermoType>::read()
+template<class CombThermoType>
+bool YSLFModel<CombThermoType>::read()
 {
     if (CombThermoType::read())
     {

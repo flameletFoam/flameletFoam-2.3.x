@@ -62,7 +62,7 @@ namespace combustionModels
                   Class YSLFModel Declaration
 \*---------------------------------------------------------------------------*/
 
-template<class CombThermoType, class ThermoType>
+template<class CombThermoType>
 class YSLFModel
 :
     public CombThermoType

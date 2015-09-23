@@ -15,7 +15,7 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-combustionModel  YSLFModel<rhoThermoCombustion,gasHThermoPhysics>;
+combustionModel  YSLFModel<rhoThermoCombustion>;
 
 active  true;
 

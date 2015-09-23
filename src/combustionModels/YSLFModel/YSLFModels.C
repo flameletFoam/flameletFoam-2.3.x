@@ -38,11 +38,10 @@ namespace Foam
 namespace combustionModels
 {
 
-makeCombustionTypesThermo
+makeCombustionTypes
 (
     YSLFModel,
     rhoThermoCombustion,
-    gasHThermoPhysics,  
     rhoCombustionModel  
 );
 
